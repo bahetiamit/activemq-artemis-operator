@@ -2,9 +2,8 @@ FROM registry.access.redhat.com/ubi7/go-toolset:1.13.4-18 AS build-env
 
 ENV GOPATH=/tmp/go 
 ENV GOOS=linux
-ENV CGO_ENABLED=1
+ENV CGO_ENABLED=0
 ENV BROKER_NAME=activemq-artemis
-ENV GO_LDFLAGS="-linkmode external -extldflags -static"
 
 #This arg is passed by docker buildx & contains the platform info in the form linux/amd64, linux/ppc64le etc.
 ARG TARGETPLATFORM
@@ -17,7 +16,7 @@ RUN mkdir -p /tmp/activemq-artemis-operator
 ADD . ${GOPATH}/src/github.com/artemiscloud/activemq-artemis-operator
 WORKDIR ${GOPATH}/src/github.com/artemiscloud/activemq-artemis-operator
 
-RUN GOARCH=$(cat /tmp/goarch) /opt/rh/go-toolset-1.13/root/usr/bin/go build -o /tmp/activemq-artemis-operator/${BROKER_NAME}-operator -ldflags "${GO_LDFLAGS}" /tmp/go/src/github.com/artemiscloud/activemq-artemis-operator/cmd/manager
+RUN GOARCH=$(cat /tmp/goarch) /opt/rh/go-toolset-1.13/root/usr/bin/go build -o /tmp/activemq-artemis-operator/${BROKER_NAME}-operator /tmp/go/src/github.com/artemiscloud/activemq-artemis-operator/cmd/manager
 
 
 FROM registry.access.redhat.com/ubi8:8.3-289 AS base-env
