@@ -29,10 +29,12 @@ jobs:
         id: prep
         run: |
           IMAGE_TAG=${{ github.event.release.tag_name }}
+          echo ::set-output name=image_tag::${IMAGE_TAG}
           PLATFORMS=linux/amd64,linux/ppc64le
+          echo ::set-output name=platforms::${PLATFORMS}
           IMAGE_NAME=activemq-artemis-operator
-          echo 'Image tag is ${IMAGE_TAG}'
-
+          echo ::set-output name=image_name::${IMAGE_NAME}
+          
       - name: Login to quay.io
         uses: docker/login-action@v1
         with:
@@ -45,6 +47,6 @@ jobs:
         with:
           context: .
           file: ./build/Dockerfile
-          platforms: ${{ steps.prep.outputs.PLATFORMS }}
-          tags:  docker.io/${{ secrets.QUAY_NAMESPACE }}/${{ steps.prep.outputs.IMAGE_NAME }}:${{ steps.prep.outputs.IMAGE_TAG }},docker.io/${{ secrets.QUAY_NAMESPACE }}/${{ steps.prep.outputs.IMAGE_NAME }}:latest
+          platforms: ${{ steps.prep.outputs.platforms }}
+          tags:  docker.io/${{ secrets.QUAY_NAMESPACE }}/${{ steps.prep.outputs.image_name }}:${{ steps.prep.outputs.image_tag }},docker.io/${{ secrets.QUAY_NAMESPACE }}/${{ steps.prep.outputs.image_name }}:latest
           push: true
