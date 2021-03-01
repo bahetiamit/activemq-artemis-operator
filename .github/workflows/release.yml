@@ -45,6 +45,6 @@ jobs:
         with:
           context: .
           file: ./build/Dockerfile
-          platforms: env.PLATFORMS
+          platforms: ${{ steps.prep.outputs.PLATFORMS }}
           tags:  ${{ secrets.QUAY_NAMESPACE }}/${{ steps.prep.outputs.IMAGE_NAME }}:${{ steps.prep.outputs.IMAGE_TAG }},${{ secrets.QUAY_NAMESPACE }}/${{ steps.prep.outputs.IMAGE_NAME }}:latest
           push: true
