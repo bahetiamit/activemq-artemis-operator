@@ -28,7 +28,7 @@ jobs:
       - name: Prepare
         id: prep
         run: |
-          IMAGE_TAG=${{ github.event.release.tag_name }}
+          IMAGE_TAG=${GITHUB_REF#refs/tags/v}
           echo ::set-output name=image_tag::${IMAGE_TAG}
           PLATFORMS=linux/amd64,linux/ppc64le
           echo ::set-output name=platforms::${PLATFORMS}
