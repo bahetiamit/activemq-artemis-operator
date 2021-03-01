@@ -46,5 +46,5 @@ jobs:
           context: .
           file: ./build/Dockerfile
           platforms: ${{ steps.prep.outputs.PLATFORMS }}
-          tags:  docker.io/${{ secrets.QUAY_NAMESPACE }}/${{ steps.prep.outputs.IMAGE_NAME }}:${{ github.event.release.tag_name }},docker.io/${{ secrets.QUAY_NAMESPACE }}/${{ steps.prep.outputs.IMAGE_NAME }}:latest
+          tags:  docker.io/${{ secrets.QUAY_NAMESPACE }}/${{ steps.prep.outputs.IMAGE_NAME }}:${{ steps.prep.outputs.IMAGE_TAG }},docker.io/${{ secrets.QUAY_NAMESPACE }}/${{ steps.prep.outputs.IMAGE_NAME }}:latest
           push: true
