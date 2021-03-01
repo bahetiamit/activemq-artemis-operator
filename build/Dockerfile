@@ -60,7 +60,7 @@ RUN useradd ${BROKER_NAME}-operator
 RUN mkdir -p /home/${BROKER_NAME}-operator/bin && chown -R `id -u`:0 /home/${BROKER_NAME}-operator/bin && chmod -R 755 /home/${BROKER_NAME}-operator/bin
 
 USER ${USER_UID}
-ENTRYPOINT /home/${BROKER_NAME}-operator/bin/entrypoint
+ENTRYPOINT ["/home/activemq-artemis-operator/bin/entrypoint"]
 
 LABEL \
       com.redhat.component="amq-broker-rhel8-operator-container"  \
